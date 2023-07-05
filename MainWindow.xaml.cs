@@ -17,7 +17,7 @@ namespace IN0996_UNICAMP
         private bool dragging = false;
         private bool playing = false;
 		private List<string> playlistPaths;
-		private string[] musicFiles;
+		private string[] musicFiles = {};
 		private int currentMusicIndex;
 
 		public MediaPlayer()
@@ -44,7 +44,7 @@ namespace IN0996_UNICAMP
             }
         }
 
-		private void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		/*private void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
             e.CanExecute = true;
 		}
@@ -56,7 +56,7 @@ namespace IN0996_UNICAMP
 			FileDialog.Filter = "Media files (*.mp3;*.mp4;*.mpg;*.mpeg)|*.mp3;*.mp4;*.mpg;*.mpeg|All files (*.*)|*.*";      
 			if(FileDialog.ShowDialog() == true)         
 				Player.Source = new Uri(FileDialog.FileName);      // Define a origem do Player como um objeto Uri que representa o caminho completo do arquivo selecionado
-		}
+		}*/
 
 		private void Play_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
@@ -84,28 +84,7 @@ namespace IN0996_UNICAMP
             Player.Pause();     //Pausa o player
 		}
 
-		//Quando a lógica tiver feita, adicionar no .xaml os comandos e os botões para essas funcionalidades
-		/*private void Next_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-            //Verificar se há uma próxima música
-		}
-
-		private void Next_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-            //Método que dá play na próxima música
-		}
-
-        private void Previous_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-            //Verificar se há uma música anterior
-		}
-
-        private void Previous_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-            //Método que dá play na música anterior
-		}
-
-        private void Repeat_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        /*private void Repeat_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
             e.CanExecute = playing;     //É possível deixar no repeat se algo está tocando
 		}
@@ -114,6 +93,32 @@ namespace IN0996_UNICAMP
 		{
             //Método que deixa uma mídia tocando em loop
 		}*/
+
+		private void Next_Media(object sender, RoutedEventArgs e)
+		{
+			if (currentMusicIndex < musicFiles.Length - 1)
+			{
+				// Avançar para a próxima mídia
+				currentMusicIndex++;
+				Player.Source = new Uri(musicFiles[currentMusicIndex]);
+
+				// Iniciar a reprodução
+				Player.Play();
+			}
+		}
+
+		private void Previous_Media(object sender, RoutedEventArgs e)
+		{
+			if (currentMusicIndex - 1 >= 0)
+			{
+				// Voltar para a mídia anterior
+				currentMusicIndex--;
+				Player.Source = new Uri(musicFiles[currentMusicIndex]);
+
+				// Iniciar a reprodução
+				Player.Play();
+			}
+		}
 
         private void slideProgress_DragStarted(object sender, DragStartedEventArgs e)
 		{
@@ -180,7 +185,7 @@ namespace IN0996_UNICAMP
 
 		private void PlayPlaylist(string playlistPath)
 		{
-			// Obter os arquivos de música da playlist
+			// Obter os arquivos de música da playlist, só está selecionando .mp4
 			musicFiles = Directory.GetFiles(playlistPath, "*.mp4", SearchOption.AllDirectories);
 
 			// Definir a primeira música da playlist como a fonte do MediaElement

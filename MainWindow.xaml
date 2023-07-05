@@ -4,11 +4,10 @@
         Title="Media Player" Height="600" Width="1200">
 
     <Window.CommandBindings>
-        <CommandBinding Command="Open" CanExecute="Open_CanExecute" Executed="Open_Executed" />
         <CommandBinding Command="Play" CanExecute="Play_CanExecute" Executed="Play_Executed" />
         <CommandBinding Command="Pause" CanExecute="Pause_CanExecute" Executed="Pause_Executed" />
-        <!-- Adicionar Next, Previous, Repeat quando a lógica estiver feita no .cs -->
     </Window.CommandBindings>
+
 
     <!-- Grid de duas colunas -->
     <Grid>
@@ -26,14 +25,16 @@
             </Grid.RowDefinitions>
             
             <ToolBar Background="Gray">
-                <Button Command="Open">
-                    <Image Source="/IN0996_UNICAMP;component/path/to/image.png"/>
-                </Button>
-                <Separator />
-                <Button Command="Play">
+                <Button Click="Previous_Media">
                     <Image Source="/IN0996_UNICAMP;component/path/to/image.png" />
                 </Button>
                 <Button Command="Pause">
+                    <Image Source="/IN0996_UNICAMP;component/path/to/image.png" />
+                </Button>
+                <Button Command="Play">
+                    <Image Source="/IN0996_UNICAMP;component/path/to/image.png" />
+                </Button>
+                <Button Click="Next_Media">
                     <Image Source="/IN0996_UNICAMP;component/path/to/image.png" />
                 </Button>
             </ToolBar>
