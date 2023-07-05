@@ -1,7 +1,8 @@
 ﻿<Window x:Class="IN0996_UNICAMP.MediaPlayer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Media Player" Height="600" Width="1200">
+        Title="Media Player" Height="600" Width="1200"
+        ResizeMode="NoResize">
 
     <Window.CommandBindings>
         <CommandBinding Command="Play" CanExecute="Play_CanExecute" Executed="Play_Executed" />
@@ -19,12 +20,16 @@
         <!-- Primeira coluna -->
         <Grid MouseWheel="Grid_MouseWheel">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
-            <ToolBar Background="White">
+
+            <Border Grid.Row="0" Background="Black">
+                <MediaElement Name="Player" Grid.Row="1" LoadedBehavior="Manual" Stretch="Fill" Margin="0, 0, 0, 0" Width="483" Height="300" />
+            </Border>
+
+            <StackPanel Grid.Row="1" Background="White" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Click="Previous_Media">
                     <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\back_icon_64px.png" />
                 </Button>
@@ -37,13 +42,9 @@
                 <Button Click="Next_Media">
                     <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\next_icon_64px.png" />
                 </Button>
-            </ToolBar>
+            </StackPanel>
 
-            <Border Grid.Row="1" Background="Black">
-                <MediaElement Name="Player" Grid.Row="1" LoadedBehavior="Manual" Stretch="Fill" Margin="0, 0, 0, 0" Width="483" Height="300" />
-            </Border>
-
-            <StatusBar Grid.Row="2" Background="Gray">
+            <StatusBar Grid.Row="2" Background="White">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid>
