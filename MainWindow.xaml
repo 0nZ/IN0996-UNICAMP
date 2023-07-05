@@ -19,23 +19,23 @@
         <!-- Primeira coluna -->
         <Grid MouseWheel="Grid_MouseWheel">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             
-            <ToolBar Background="Gray">
+            <ToolBar Background="White">
                 <Button Click="Previous_Media">
-                    <Image Source="/IN0996_UNICAMP;component/path/to/image.png" />
+                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\back_icon_64px.png" />
                 </Button>
                 <Button Command="Pause">
-                    <Image Source="/IN0996_UNICAMP;component/path/to/image.png" />
+                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\pause_icon_64px.png" />
                 </Button>
                 <Button Command="Play">
-                    <Image Source="/IN0996_UNICAMP;component/path/to/image.png" />
+                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\play_icon_64px.png" />
                 </Button>
                 <Button Click="Next_Media">
-                    <Image Source="/IN0996_UNICAMP;component/path/to/image.png" />
+                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\next_icon_64px.png" />
                 </Button>
             </ToolBar>
 
