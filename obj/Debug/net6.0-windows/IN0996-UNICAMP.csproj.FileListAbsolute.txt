@@ -18,3 +18,5 @@ C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\ref\IN0996-UNICAMP.dll
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\MainWindow.baml
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\bin\Debug\net6.0-windows\Ookii.Dialogs.Wpf.dll
+C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\IN0996-UNICAMP.csproj.CopyComplete

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "LlXynQ43xZClp4eHWENO9Qt/j2RS1E8WAwaG2CMwEcmaG3ifmni/Iuuz9WzT83qSPak7lwTYZGi3h6LY9F1LHQ==",
+  "dgSpecHash": "GiP51y2odmzm3BMNAJujaCN9G6VLWyRmPxp//Z/HUBsRUeBf6vBE/+/XQCyPJWuWgrRowEJpwyukzsVkFhPoKA==",
   "success": true,
   "projectFilePath": "C:\\Users\\henri\\OneDrive\\Documentos\\Unicamp\\Ciência da Computação\\1º Semestre\\Curso msft\\Aulas\\Desenvolvimento de Interface de Usuário\\IN0996-UNICAMP\\IN0996-UNICAMP.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\henri\\.nuget\\packages\\ookii.dialogs.wpf\\5.0.1\\ookii.dialogs.wpf.5.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
