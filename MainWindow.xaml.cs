@@ -17,7 +17,7 @@ namespace IN0996_UNICAMP
         private bool dragging = false;
         private bool playing = false;
 		private List<string> playlistPaths;
-		private string[] musicFiles = {};
+		private string[] mediaFiles = {};
 		private int currentMusicIndex;
 
 		public MediaPlayer()
@@ -96,11 +96,11 @@ namespace IN0996_UNICAMP
 
 		private void Next_Media(object sender, RoutedEventArgs e)
 		{
-			if (currentMusicIndex < musicFiles.Length - 1)
+			if (currentMusicIndex < mediaFiles.Length - 1)
 			{
 				// Avançar para a próxima mídia
 				currentMusicIndex++;
-				Player.Source = new Uri(musicFiles[currentMusicIndex]);
+				Player.Source = new Uri(mediaFiles[currentMusicIndex]);
 
 				// Iniciar a reprodução
 				Player.Play();
@@ -113,7 +113,7 @@ namespace IN0996_UNICAMP
 			{
 				// Voltar para a mídia anterior
 				currentMusicIndex--;
-				Player.Source = new Uri(musicFiles[currentMusicIndex]);
+				Player.Source = new Uri(mediaFiles[currentMusicIndex]);
 
 				// Iniciar a reprodução
 				Player.Play();
@@ -183,16 +183,77 @@ namespace IN0996_UNICAMP
             }
         }
 
+		private void PlaylistBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			// Verificar se o item da playlist foi selecionado
+			if (e.ChangedButton == MouseButton.Left && PlaylistListBox.SelectedItem is PlaylistItem playlistItem)
+			{
+				// Reproduzir a playlist
+				PlayPlaylist(playlistItem.Path);
+			}
+		}
+
+		private void PlaylistBorder_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			// Verificar se o evento foi acionado pelo botão direito do mouse
+			if (e.ChangedButton == MouseButton.Right)
+			{
+				// Obter o Border que acionou o evento
+				Border border = (Border)sender;
+
+				// Exibir o ContextMenu na posição do mouse
+				ContextMenu contextMenu = border.FindResource("ContextMenu") as ContextMenu;
+				contextMenu.PlacementTarget = border;
+				contextMenu.IsOpen = true;
+			}
+		}
+
+
+		
+		private void SelectImageMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			// Abrir um diálogo para selecionar uma imagem
+			Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+			openFileDialog.Filter = "Imagens|*.png;*.jpg;*.jpeg";
+			if (openFileDialog.ShowDialog() == true)
+			{
+				// Obter o caminho da imagem selecionada
+				string imagePath = openFileDialog.FileName;
+
+				// Lógica para associar a imagem à playlist selecionada
+				if (PlaylistListBox.SelectedItem is PlaylistItem playlistItem)
+				{
+					playlistItem.ImagePath = imagePath;
+				}
+			}
+		}
+
+		private void DeletePlaylistMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			// Confirmar a exclusão da playlist
+			MessageBoxResult result = System.Windows.MessageBox.Show("Tem certeza de que deseja excluir esta playlist?", "Excluir Playlist", MessageBoxButton.YesNo, MessageBoxImage.Question);
+			if (result == MessageBoxResult.Yes)
+			{
+				// Lógica para excluir a playlist
+				if (PlaylistListBox.SelectedItem is PlaylistItem playlistItem)
+				{
+					// Remover o item da lista
+					playlistPaths.Remove(playlistItem.Path);
+					RefreshPlaylistListBox();
+				}
+			}
+		}
+
 		private void PlayPlaylist(string playlistPath)
 		{
 			// Obter os arquivos de música da playlist, só está selecionando .mp4
-			musicFiles = Directory.GetFiles(playlistPath, "*.mp4", SearchOption.AllDirectories);
+			mediaFiles = Directory.GetFiles(playlistPath, "*.mp4", SearchOption.AllDirectories);
 
 			// Definir a primeira música da playlist como a fonte do MediaElement
-			if (musicFiles.Length > 0)
+			if (mediaFiles.Length > 0)
 			{
 				currentMusicIndex = 0;
-				Player.Source = new Uri(musicFiles[currentMusicIndex]);
+				Player.Source = new Uri(mediaFiles[currentMusicIndex]);
 
 				// Iniciar a reprodução
 				Player.Play();
@@ -205,11 +266,11 @@ namespace IN0996_UNICAMP
 		private void Player_MediaEnded(object sender, RoutedEventArgs e)
 		{
 			// Verificar se há mais músicas na playlist
-			if (currentMusicIndex < musicFiles.Length - 1)
+			if (currentMusicIndex < mediaFiles.Length - 1)
 			{
 				// Avançar para a próxima música
 				currentMusicIndex++;
-				Player.Source = new Uri(musicFiles[currentMusicIndex]);
+				Player.Source = new Uri(mediaFiles[currentMusicIndex]);
 
 				// Iniciar a reprodução
 				Player.Play();
@@ -224,7 +285,8 @@ namespace IN0996_UNICAMP
     	{
         	public string? Name { get; set; }
         	public string? Path { get; set; }
-    	}
+            public string? ImagePath { get; internal set; }
+        }
 
 	}
 }

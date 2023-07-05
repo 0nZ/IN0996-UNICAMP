@@ -83,14 +83,32 @@
             </Menu>
 
             <!-- Lista de playlists -->
-            <ListBox Grid.Row="1" x:Name="PlaylistListBox" SelectionChanged="PlaylistListBox_SelectionChanged">
+            <ListBox Grid.Row="1" x:Name="PlaylistListBox" Background="White" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}" FlowDirection="RightToLeft" />
+
+                        <Border Name="PlaylistBorder" Background="Black" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseLeftButtonUp="PlaylistBorder_MouseLeftButtonUp">
+                            <Border.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Excluir Playlist" Click="DeletePlaylistMenuItem_Click" />
+                                    <MenuItem Header="Adicionar Imagem" Click="SelectImageMenuItem_Click" />
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="260" />
+                                </Grid.ColumnDefinitions>
+                                <Border Background="Gray" Width="40"/>
+                                <Image Grid.Column="0" Source="{Binding ImagePath}" Width="40" Height="40" />
+                                <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
         </Grid>        
     </Grid>
 </Window>
