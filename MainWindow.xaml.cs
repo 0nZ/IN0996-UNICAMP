@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Windows.Forms;
 using Microsoft.Win32;
+using Ookii.Dialogs.Wpf;
+using System.Windows.Controls;
 
 namespace IN0996_UNICAMP
 {
@@ -11,10 +16,14 @@ namespace IN0996_UNICAMP
 	{
         private bool dragging = false;
         private bool playing = false;
+		private List<string> playlistPaths;
+		private string[] musicFiles;
+		private int currentMusicIndex;
 
 		public MediaPlayer()
         {
             InitializeComponent();
+			playlistPaths = new List<string>();
 
             // Cria e configura um DispatcherTimer para atualizar o progresso do áudio em intervalos regulares
             DispatcherTimer timer = new DispatcherTimer();
@@ -42,7 +51,7 @@ namespace IN0996_UNICAMP
 
 		private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-            OpenFileDialog FileDialog = new OpenFileDialog();           // Cria uma instância do OpenFileDialog
+            Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog();           // Cria uma instância do OpenFileDialog
             // Define o filtro de arquivo para exibir apenas arquivos de mídia com as extensões .mp3, .mpg e .mpeg
 			FileDialog.Filter = "Media files (*.mp3;*.mp4;*.mpg;*.mpeg)|*.mp3;*.mp4;*.mpg;*.mpeg|All files (*.*)|*.*";      
 			if(FileDialog.ShowDialog() == true)         
@@ -131,5 +140,86 @@ namespace IN0996_UNICAMP
             // Com base na direção, aumenta ou diminui o volume do player
 			Player.Volume += (e.Delta > 0) ? 0.1 : -0.1;
 		}
+
+		private void AddPlaylistMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
+            if (dialog.ShowDialog() == true)
+            {
+                string playlistPath = dialog.SelectedPath;
+                playlistPaths.Add(playlistPath);
+
+                // Atualizar a lista de playlists
+                RefreshPlaylistListBox();
+            }
+        }
+
+		private void PlaylistListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PlaylistListBox.SelectedIndex != -1)
+            {
+                // Obter o caminho da playlist selecionada
+                string playlistPath = playlistPaths[PlaylistListBox.SelectedIndex];
+                // Reproduzir a playlist no MediaElement
+                PlayPlaylist(playlistPath);
+            }
+        }
+
+		private void RefreshPlaylistListBox()
+        {
+            // Limpar a lista de playlists
+            PlaylistListBox.Items.Clear();
+
+            // Adicionar as playlists à lista
+            foreach (string playlistPath in playlistPaths)
+            {
+                string playlistName = Path.GetFileName(playlistPath);
+                PlaylistListBox.Items.Add(new PlaylistItem { Name = playlistName, Path = playlistPath });
+            }
+        }
+
+		private void PlayPlaylist(string playlistPath)
+		{
+			// Obter os arquivos de música da playlist
+			musicFiles = Directory.GetFiles(playlistPath, "*.mp4", SearchOption.AllDirectories);
+
+			// Definir a primeira música da playlist como a fonte do MediaElement
+			if (musicFiles.Length > 0)
+			{
+				currentMusicIndex = 0;
+				Player.Source = new Uri(musicFiles[currentMusicIndex]);
+
+				// Iniciar a reprodução
+				Player.Play();
+
+				// Registrar o evento MediaEnded para reproduzir a próxima música
+				Player.MediaEnded += Player_MediaEnded;
+			}
+		}
+
+		private void Player_MediaEnded(object sender, RoutedEventArgs e)
+		{
+			// Verificar se há mais músicas na playlist
+			if (currentMusicIndex < musicFiles.Length - 1)
+			{
+				// Avançar para a próxima música
+				currentMusicIndex++;
+				Player.Source = new Uri(musicFiles[currentMusicIndex]);
+
+				// Iniciar a reprodução
+				Player.Play();
+			}
+			else
+			{
+				// A reprodução da playlist foi concluída, é possível realizar alguma ação adicional, como uma mensagem de que a PL acabou
+			}
+		}
+
+		public class PlaylistItem
+    	{
+        	public string? Name { get; set; }
+        	public string? Path { get; set; }
+    	}
+
 	}
 }

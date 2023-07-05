@@ -65,7 +65,30 @@
                 </StatusBarItem>
             </StatusBar>
         </Grid>
-
+        
         <!-- Segunda coluna - folders -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Menu de playlists -->
+            <Menu Grid.Row="0">
+                <MenuItem Header="_Arquivo">
+                    <MenuItem Header="_Adicionar Playlist" Click="AddPlaylistMenuItem_Click" />
+                </MenuItem>
+            </Menu>
+
+            <!-- Lista de playlists -->
+            <ListBox Grid.Row="1" x:Name="PlaylistListBox" SelectionChanged="PlaylistListBox_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" FlowDirection="RightToLeft" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </Grid>        
     </Grid>
 </Window>
