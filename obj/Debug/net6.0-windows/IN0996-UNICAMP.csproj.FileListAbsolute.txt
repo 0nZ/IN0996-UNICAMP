@@ -4,10 +4,8 @@ C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\bin\Debug\net6.0-windows\IN0996-UNICAMP.dll
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\bin\Debug\net6.0-windows\IN0996-UNICAMP.pdb
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\IN0996-UNICAMP.csproj.AssemblyReference.cache
-C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\MainWindow.g.cs
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\App.g.cs
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\IN0996-UNICAMP_MarkupCompile.cache
-C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\MainWindow.baml
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\IN0996-UNICAMP.g.resources
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\IN0996-UNICAMP.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\IN0996-UNICAMP.AssemblyInfoInputs.cache
@@ -18,3 +16,5 @@ C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\IN0996-UNICAMP.pdb
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\IN0996-UNICAMP.genruntimeconfig.cache
 C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\ref\IN0996-UNICAMP.dll
+C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\obj\Debug\net6.0-windows\MainWindow.g.cs
