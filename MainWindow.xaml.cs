@@ -35,6 +35,9 @@ namespace IN0996_UNICAMP
             timer.Interval = TimeSpan.FromSeconds(1); // Define o intervalo para 1 segundo
             timer.Tick += timer_Tick; // Associa o evento timer_Tick ao evento Tick do DispatcherTimer
             timer.Start(); // Inicia o DispatcherTimer para começar a atualizar o progresso do áudio
+
+			// Registrar o evento MediaEnded para reproduzir a próxima música
+			Player.MediaEnded += Player_MediaEnded;
         }
 
 
@@ -276,9 +279,6 @@ namespace IN0996_UNICAMP
 				// Iniciar a reprodução
 				playing = true;
 				Player.Play();
-
-				// Registrar o evento MediaEnded para reproduzir a próxima música
-				Player.MediaEnded += Player_MediaEnded;
 			}
 		}
 
@@ -295,7 +295,7 @@ namespace IN0996_UNICAMP
 				// Iniciar a reprodução
 				playing = true;
 				Player.Play();
-				
+
 			}	else	{
 				Player.Source = null;
 			}
