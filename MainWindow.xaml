@@ -77,7 +77,10 @@
 
             <!-- Menu de playlists -->
             <Menu Grid.Row="0">
-                <MenuItem Header="_Arquivo">
+                <MenuItem Header="_Mídia">
+                    <MenuItem Header="_Adicionar Mídia" Click="AddMediaMenuItem_Click" />
+                </MenuItem>
+                <MenuItem Header="_Playlist">
                     <MenuItem Header="_Adicionar Playlist" Click="AddPlaylistMenuItem_Click" />
                 </MenuItem>
             </Menu>

@@ -19,11 +19,13 @@ namespace IN0996_UNICAMP
 		private List<string> playlistPaths;
 		private string[] mediaFiles = {};
 		private int currentMusicIndex;
+        private List<string> hangingMedia;
 
-		public MediaPlayer()
+        public MediaPlayer()
         {
             InitializeComponent();
 			playlistPaths = new List<string>();
+			hangingMedia = new List<string>();
 
             // Cria e configura um DispatcherTimer para atualizar o progresso do áudio em intervalos regulares
             DispatcherTimer timer = new DispatcherTimer();
@@ -44,28 +46,14 @@ namespace IN0996_UNICAMP
             }
         }
 
-		/*private void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-            e.CanExecute = true;
-		}
-
-		private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-            Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog();           // Cria uma instância do OpenFileDialog
-            // Define o filtro de arquivo para exibir apenas arquivos de mídia com as extensões .mp3, .mpg e .mpeg
-			FileDialog.Filter = "Media files (*.mp3;*.mp4;*.mpg;*.mpeg)|*.mp3;*.mp4;*.mpg;*.mpeg|All files (*.*)|*.*";      
-			if(FileDialog.ShowDialog() == true)         
-				Player.Source = new Uri(FileDialog.FileName);      // Define a origem do Player como um objeto Uri que representa o caminho completo do arquivo selecionado
-		}*/
-
 		private void Play_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-           /* bool possible= false;
+           bool possible= false;
             if((Player != null) && (Player.Source != null))         //Se o player existe e a fonte também, é possível tocar
             {
                 possible = true;
-            }*/
-            e.CanExecute = (Player != null) && (Player.Source != null);;
+            }
+            e.CanExecute = possible;
 		}
 
 		private void Play_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -159,6 +147,19 @@ namespace IN0996_UNICAMP
             }
         }
 
+		private void AddMediaMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog();           // Cria uma instância do OpenFileDialog
+            // Define o filtro de arquivo para exibir apenas arquivos de mídia com as extensões .mp3, .mpg e .mpeg
+			FileDialog.Filter = "Media files (*.mp3;*.mp4;*.mpg;*.mpeg)|*.mp3;*.mp4;*.mpg;*.mpeg|All files (*.*)|*.*";      
+			if(FileDialog.ShowDialog() == true)
+			{
+				hangingMedia.Add(FileDialog.FileName);
+				// Atualizar a lista de playlists
+                RefreshPlaylistListBox();
+			}
+		}
+
 		private void PlaylistListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (PlaylistListBox.SelectedIndex != -1)
@@ -180,6 +181,12 @@ namespace IN0996_UNICAMP
             {
                 string playlistName = Path.GetFileName(playlistPath);
                 PlaylistListBox.Items.Add(new PlaylistItem { Name = playlistName, Path = playlistPath });
+            }
+
+			foreach (string mediaPath in hangingMedia)
+            {
+                string mediaName = Path.GetFileName(mediaPath);
+                PlaylistListBox.Items.Add(new MediaItem { Name = mediaName, Path = mediaPath });
             }
         }
 
@@ -207,8 +214,6 @@ namespace IN0996_UNICAMP
 				contextMenu.IsOpen = true;
 			}
 		}
-
-
 		
 		private void SelectImageMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -288,5 +293,11 @@ namespace IN0996_UNICAMP
             public string? ImagePath { get; internal set; }
         }
 
+		public class MediaItem
+    	{
+        	public string? Name { get; set; }
+        	public string? Path { get; set; }
+            public string? ImagePath { get; internal set; }
+        }
 	}
 }
