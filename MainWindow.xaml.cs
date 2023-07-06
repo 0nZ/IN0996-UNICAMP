@@ -155,21 +155,11 @@ namespace IN0996_UNICAMP
 			if(FileDialog.ShowDialog() == true)
 			{
 				hangingMedia.Add(FileDialog.FileName);
+
 				// Atualizar a lista de playlists
                 RefreshPlaylistListBox();
 			}
 		}
-
-		private void PlaylistListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (PlaylistListBox.SelectedIndex != -1)
-            {
-                // Obter o caminho da playlist selecionada
-                string playlistPath = playlistPaths[PlaylistListBox.SelectedIndex];
-                // Reproduzir a playlist no MediaElement
-                PlayPlaylist(playlistPath);
-            }
-        }
 
 		private void RefreshPlaylistListBox()
         {
@@ -192,11 +182,18 @@ namespace IN0996_UNICAMP
 
 		private void PlaylistBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			// Verificar se o item da playlist foi selecionado
-			if (e.ChangedButton == MouseButton.Left && PlaylistListBox.SelectedItem is PlaylistItem playlistItem)
+			// Verificar se uma playlist foi selecionada
+			if (e.ChangedButton == MouseButton.Left && (PlaylistListBox.SelectedItem is PlaylistItem playlistItem))
 			{
 				// Reproduzir a playlist
 				PlayPlaylist(playlistItem.Path);
+			}
+
+			// Verificar se uma mídia foi selecionada
+			if (e.ChangedButton == MouseButton.Left && (PlaylistListBox.SelectedItem is MediaItem mediaItem))
+			{
+				// Reproduzir a playlist
+				PlayMedia(mediaItem.Path);
 			}
 		}
 
@@ -235,17 +232,26 @@ namespace IN0996_UNICAMP
 
 		private void DeletePlaylistMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			// Confirmar a exclusão da playlist
-			MessageBoxResult result = System.Windows.MessageBox.Show("Tem certeza de que deseja excluir esta playlist?", "Excluir Playlist", MessageBoxButton.YesNo, MessageBoxImage.Question);
-			if (result == MessageBoxResult.Yes)
+			if (PlaylistListBox.SelectedItem is PlaylistItem playlistItem)
 			{
-				// Lógica para excluir a playlist
-				if (PlaylistListBox.SelectedItem is PlaylistItem playlistItem)
+				// Confirmar a exclusão da playlist
+				MessageBoxResult result = System.Windows.MessageBox.Show("Tem certeza de que deseja excluir esta playlist?", "Excluir Playlist", MessageBoxButton.YesNo, MessageBoxImage.Question);
+				if (result == MessageBoxResult.Yes)
 				{
-					// Remover o item da lista
+					// Lógica para excluir a playlist
 					playlistPaths.Remove(playlistItem.Path);
 					RefreshPlaylistListBox();
-				}
+				}	
+			}	else if(PlaylistListBox.SelectedItem is MediaItem mediaItem)
+			{
+				// Confirmar a exclusão da mídia
+				MessageBoxResult result = System.Windows.MessageBox.Show("Tem certeza de que deseja excluir esta mídia?", "Excluir Mídia", MessageBoxButton.YesNo, MessageBoxImage.Question);
+				if (result == MessageBoxResult.Yes)
+				{	
+						// Remover o item da lista
+						hangingMedia.Remove(mediaItem.Path);
+						RefreshPlaylistListBox();
+				}	
 			}
 		}
 
@@ -261,11 +267,21 @@ namespace IN0996_UNICAMP
 				Player.Source = new Uri(mediaFiles[currentMusicIndex]);
 
 				// Iniciar a reprodução
+				playing = true;
 				Player.Play();
 
 				// Registrar o evento MediaEnded para reproduzir a próxima música
 				Player.MediaEnded += Player_MediaEnded;
 			}
+		}
+		private void PlayMedia(string mediaPath)
+		{
+			//Definir a fonte do player como mediaPath			
+			Player.Source = new Uri(mediaPath);
+
+			// Iniciar a reprodução
+			playing = true;
+			Player.Play();
 		}
 
 		private void Player_MediaEnded(object sender, RoutedEventArgs e)

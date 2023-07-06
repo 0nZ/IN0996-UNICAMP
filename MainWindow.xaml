@@ -93,7 +93,7 @@
                         <Border Name="PlaylistBorder" Background="Black" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseLeftButtonUp="PlaylistBorder_MouseLeftButtonUp">
                             <Border.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Excluir Playlist" Click="DeletePlaylistMenuItem_Click" />
+                                    <MenuItem Header="Excluir" Click="DeletePlaylistMenuItem_Click" />
                                     <MenuItem Header="Adicionar Imagem" Click="SelectImageMenuItem_Click" />
                                 </ContextMenu>
                             </Border.ContextMenu>
