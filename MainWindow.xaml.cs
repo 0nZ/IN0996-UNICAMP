@@ -14,18 +14,21 @@ namespace IN0996_UNICAMP
 {
 	public partial class MediaPlayer : Window
 	{
-        private bool dragging = false;
-        private bool playing = false;
-		private List<string> playlistPaths;
-		private string[] mediaFiles = {};
-		private int currentMusicIndex;
-        private List<string> hangingMedia;
+        private bool dragging = false;	//Variável de controle que diz se a barra de progresso está sendo arrastada
+        private bool playing = false;	//Variável de controle que diz se o player está reproduzindo
+		private string[] mediaFiles = {};	//Vetor que contém os paths para cada mídia de uma playlist
+		private int currentMusicIndex;		//Variável que representa o índice de mediaFiles que a reprodução está sendo feita
+		private List<string> playlistPaths;	//Lista com os paths para cada playlist adicionada
+        private List<string> hangingMedia;	//Lista com os paths para cada mídia adicionada
+		private List<string> reproductionQueue;	//Lista que ordena as músicas, de forma que as que devem ser reproduzidas primeiro estão na frente
+		private int queueItems = 0;		//Variável que mostra a quantidade de itens colocados na fila de reprodução
 
         public MediaPlayer()
         {
             InitializeComponent();
 			playlistPaths = new List<string>();
 			hangingMedia = new List<string>();
+			reproductionQueue = new List<string>();
 
             // Cria e configura um DispatcherTimer para atualizar o progresso do áudio em intervalos regulares
             DispatcherTimer timer = new DispatcherTimer();
@@ -182,19 +185,27 @@ namespace IN0996_UNICAMP
 
 		private void PlaylistBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
+			reproductionQueue.Clear();
 			// Verificar se uma playlist foi selecionada
 			if (e.ChangedButton == MouseButton.Left && (PlaylistListBox.SelectedItem is PlaylistItem playlistItem))
 			{
-				// Reproduzir a playlist
-				PlayPlaylist(playlistItem.Path);
+				//Coloca todas a playlist no fim da fila de reprodução
+				mediaFiles = Directory.GetFiles(playlistItem.Path, "*.mp4", SearchOption.AllDirectories);
+				foreach(string path in mediaFiles)
+				{
+					reproductionQueue.Add(path);
+				}
 			}
 
 			// Verificar se uma mídia foi selecionada
 			if (e.ChangedButton == MouseButton.Left && (PlaylistListBox.SelectedItem is MediaItem mediaItem))
 			{
-				// Reproduzir a playlist
-				PlayMedia(mediaItem.Path);
+				// Reproduzir a mídia
+				reproductionQueue.Add(mediaItem.Path);
 			}
+
+			// Reproduzir as mídias:
+			Play();
 		}
 
 		private void PlaylistBorder_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -255,16 +266,12 @@ namespace IN0996_UNICAMP
 			}
 		}
 
-		private void PlayPlaylist(string playlistPath)
+		private void Play()
 		{
-			// Obter os arquivos de música da playlist, só está selecionando .mp4
-			mediaFiles = Directory.GetFiles(playlistPath, "*.mp4", SearchOption.AllDirectories);
-
-			// Definir a primeira música da playlist como a fonte do MediaElement
-			if (mediaFiles.Length > 0)
+			// Definir a primeira música da fila como a fonte do MediaElement
+			if (reproductionQueue.Count > 0)
 			{
-				currentMusicIndex = 0;
-				Player.Source = new Uri(mediaFiles[currentMusicIndex]);
+				Player.Source = new Uri(reproductionQueue[0]);
 
 				// Iniciar a reprodução
 				playing = true;
@@ -274,31 +281,23 @@ namespace IN0996_UNICAMP
 				Player.MediaEnded += Player_MediaEnded;
 			}
 		}
-		private void PlayMedia(string mediaPath)
-		{
-			//Definir a fonte do player como mediaPath			
-			Player.Source = new Uri(mediaPath);
-
-			// Iniciar a reprodução
-			playing = true;
-			Player.Play();
-		}
 
 		private void Player_MediaEnded(object sender, RoutedEventArgs e)
 		{
+			//Tira o primeiro elemento (já reproduzido) da fila de reprodução
+			reproductionQueue.RemoveAt(0);
+
 			// Verificar se há mais músicas na playlist
-			if (currentMusicIndex < mediaFiles.Length - 1)
+			if (reproductionQueue.Count > 0)
 			{
-				// Avançar para a próxima música
-				currentMusicIndex++;
-				Player.Source = new Uri(mediaFiles[currentMusicIndex]);
+				Player.Source = new Uri(reproductionQueue[0]);
 
 				// Iniciar a reprodução
+				playing = true;
 				Player.Play();
-			}
-			else
-			{
-				// A reprodução da playlist foi concluída, é possível realizar alguma ação adicional, como uma mensagem de que a PL acabou
+				
+			}	else	{
+				Player.Source = null;
 			}
 		}
 
