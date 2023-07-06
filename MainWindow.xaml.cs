@@ -21,7 +21,7 @@ namespace IN0996_UNICAMP
 		private List<string> playlistPaths;	//Lista com os paths para cada playlist adicionada
         private List<string> hangingMedia;	//Lista com os paths para cada mídia adicionada
 		private List<string> reproductionQueue;	//Lista que ordena as músicas, de forma que as que devem ser reproduzidas primeiro estão na frente
-		private int queueItems = 0;		//Variável que mostra a quantidade de itens colocados na fila de reprodução
+		private int queueItemsUser = 0;		//Variável que mostra a quantidade de itens colocados na fila de reprodução
 
         public MediaPlayer()
         {
@@ -192,7 +192,7 @@ namespace IN0996_UNICAMP
 			// Verificar se uma playlist foi selecionada
 			if (e.ChangedButton == MouseButton.Left && (PlaylistListBox.SelectedItem is PlaylistItem playlistItem))
 			{
-				//Coloca todas a playlist no fim da fila de reprodução
+				//Coloca todas as mídias da playlist no fim da fila de reprodução
 				mediaFiles = Directory.GetFiles(playlistItem.Path, "*.mp4", SearchOption.AllDirectories);
 				foreach(string path in mediaFiles)
 				{
@@ -225,7 +225,25 @@ namespace IN0996_UNICAMP
 				contextMenu.IsOpen = true;
 			}
 		}
-		
+		private void AddToQueue(object sender, RoutedEventArgs e)
+		{
+			if (PlaylistListBox.SelectedItem is PlaylistItem playlistItem)
+			{
+				//Coloca todas as mídias da playlist no fim da fila de reprodução
+				mediaFiles = Directory.GetFiles(playlistItem.Path, "*.mp4", SearchOption.AllDirectories);
+				for(int i = mediaFiles.Length - 1; i >= 0; i--)			//Percorre de trás para frente para não inverter a ordem
+				{
+					reproductionQueue.Insert(1, mediaFiles[i]);			//Adiciona como a próxima mídia
+					queueItemsUser++;
+				}
+				
+			}	else if(PlaylistListBox.SelectedItem is MediaItem mediaItem)
+			{
+				reproductionQueue.Insert(1, mediaItem.Path);
+				queueItemsUser++;
+			}
+		}
+
 		private void SelectImageMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			// Abrir um diálogo para selecionar uma imagem
@@ -284,8 +302,12 @@ namespace IN0996_UNICAMP
 
 		private void Player_MediaEnded(object sender, RoutedEventArgs e)
 		{
-			//Tira o primeiro elemento (já reproduzido) da fila de reprodução
+			//Tira o primeiro elemento (já reproduzido) da fila de reprodução. Se for um item adicionado pelo usuário, a contagem desses itens diminui
 			reproductionQueue.RemoveAt(0);
+			if(queueItemsUser != 0)
+			{
+				queueItemsUser--;
+			}
 
 			// Verificar se há mais músicas na playlist
 			if (reproductionQueue.Count > 0)
@@ -304,14 +326,14 @@ namespace IN0996_UNICAMP
 		public class PlaylistItem
     	{
         	public string? Name { get; set; }
-        	public string? Path { get; set; }
+        	public string Path = "";
             public string? ImagePath { get; internal set; }
         }
 
 		public class MediaItem
     	{
         	public string? Name { get; set; }
-        	public string? Path { get; set; }
+        	public string Path = "";
             public string? ImagePath { get; internal set; }
         }
 	}
