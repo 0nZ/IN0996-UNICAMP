@@ -14,14 +14,15 @@ namespace IN0996_UNICAMP
 {
 	public partial class MediaPlayer : Window
 	{
-        private bool dragging = false;	//Variável de controle que diz se a barra de progresso está sendo arrastada
-        private bool playing = false;	//Variável de controle que diz se o player está reproduzindo
-		private string[] mediaFiles = {};	//Vetor que contém os paths para cada mídia de uma playlist
-		private int currentMusicIndex;		//Variável que representa o índice de mediaFiles que a reprodução está sendo feita
-		private List<string> playlistPaths;	//Lista com os paths para cada playlist adicionada
-        private List<string> hangingMedia;	//Lista com os paths para cada mídia adicionada
-		private List<string> reproductionQueue;	//Lista que ordena as músicas, de forma que as que devem ser reproduzidas primeiro estão na frente
-		private int queueItemsUser = 0;		//Variável que mostra a quantidade de itens colocados na fila de reprodução
+        private bool dragging = false;	// Variável de controle que diz se a barra de progresso está sendo arrastada
+        private bool playing = false;	// Variável de controle que diz se o player está reproduzindo
+		private string[] mediaFiles = {};	// Vetor que contém os paths para cada mídia de uma playlist
+		private int currentMusicIndex;		// Variável que representa o índice de mediaFiles que a reprodução está sendo feita
+		private List<string> playlistPaths;	// Lista com os paths para cada playlist adicionada
+        private List<string> hangingMedia;	// Lista com os paths para cada mídia adicionada
+		private List<string> reproductionQueue;	// Lista que ordena as músicas, de forma que as que devem ser reproduzidas primeiro 
+												// estão na frente. Seria mais eficiente usar uma priorityQueue
+		private int queueItemsUser = 0;		// Variável que mostra a quantidade de itens colocados na fila de reprodução
 
         public MediaPlayer()
         {
@@ -36,7 +37,7 @@ namespace IN0996_UNICAMP
             timer.Tick += timer_Tick; // Associa o evento timer_Tick ao evento Tick do DispatcherTimer
             timer.Start(); // Inicia o DispatcherTimer para começar a atualizar o progresso do áudio
 
-			// Registrar o evento MediaEnded para reproduzir a próxima música
+			// Registrar o evento MediaEnded para reproduzir a próxima música sempre que o player finalizar alguma reprodução
 			Player.MediaEnded += Player_MediaEnded;
         }
 
@@ -47,45 +48,47 @@ namespace IN0996_UNICAMP
             if ((Player.Source != null) && (Player.NaturalDuration.HasTimeSpan) && (!dragging))
             {
                 slideProgress.Minimum = 0; // Define o valor mínimo do slide de progresso como 0
-                slideProgress.Maximum = Player.NaturalDuration.TimeSpan.TotalSeconds; // Define o valor máximo do slide de progresso como a duração total da mídia em segundos
-                slideProgress.Value = Player.Position.TotalSeconds; // Define o valor atual do slide de progresso como a posição atual de reprodução da mídia em segundos
+                slideProgress.Maximum = Player.NaturalDuration.TimeSpan.TotalSeconds;   // Define o valor máximo do slide de progresso 
+																					    // como a duração total da mídia em segundos
+                slideProgress.Value = Player.Position.TotalSeconds; // Define o valor atual do slide de progresso como a posição atual 
+																	// de reprodução da mídia em segundos
             }
         }
 
 		private void Play_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-           bool possible= false;
-            if((Player != null) && (Player.Source != null))         //Se o player existe e a fonte também, é possível tocar
+            bool possible= false;
+            if((Player != null) && (Player.Source != null))         // Se o player existe e a fonte também, é possível tocar
             {
                 possible = true;
-            }
+        	}
             e.CanExecute = possible;
 		}
 
 		private void Play_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-            Player.Play();          //Faz o player tocar
-			playing = true;         //Define o parâmetro como verdadeiro
+            Player.Play();          // Faz o player tocar
+			playing = true;         // Define o parâmetro como verdadeiro
 		}
 
 		private void Pause_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-            e.CanExecute = playing;         //Se está tocando, é possível pausar
+            e.CanExecute = playing;         // Se está tocando, é possível pausar
 		}
 
 		private void Pause_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-            Player.Pause();     //Pausa o player
+            Player.Pause();     // Pausa o player
 		}
 
         /*private void Repeat_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-            e.CanExecute = playing;     //É possível deixar no repeat se algo está tocando
+            e.CanExecute = playing;     // É possível deixar no repeat se algo está tocando
 		}
 
         private void Repeat_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-            //Método que deixa uma mídia tocando em loop
+            // Método que deixa uma mídia tocando em loop
 		}*/
 
 		private void Next_Media(object sender, RoutedEventArgs e)
@@ -121,8 +124,10 @@ namespace IN0996_UNICAMP
 
 		private void slideProgress_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            dragging = false; // Define a variável de controle "dragging" como false, indicando que o slide de progresso não está mais sendo arrastado pelo usuário
-            Player.Position = TimeSpan.FromSeconds(slideProgress.Value); // Define a posição de reprodução do áudio como o valor atual do slide de progresso convertido em um objeto TimeSpan
+            dragging = false;   // Define a variável de controle "dragging" como false, indicando que o slide de 
+								// progresso não está mais sendo arrastado pelo usuário
+            Player.Position = TimeSpan.FromSeconds(slideProgress.Value);    // Define a posição de reprodução do áudio como o valor 
+																		    // atual do slide de progresso convertido em um objeto TimeSpan
         }
 
 
@@ -135,16 +140,18 @@ namespace IN0996_UNICAMP
 		private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
             // Verifica a direção do movimento da roda do mouse
-            // Se o valor de e.Delta for maior que 0, significa que a roda do mouse foi rolada para cima, caso contrário, foi rolada para baixo
-            // Com base na direção, aumenta ou diminui o volume do player
-			Player.Volume += (e.Delta > 0) ? 0.1 : -0.1;
+            // e.Delta > 0 => roda do mouse rolada para baixo; Caso contrário, foi rolada para baixo
+            // Com base na direção, diminui ou aumenta o volume do player
+			Player.Volume += (e.Delta > 0) ? - 0.1 : 0.1;
 		}
 
 		private void AddPlaylistMenuItem_Click(object sender, RoutedEventArgs e)
         {
+			// Cria caixa para seleção de um folder no file explorer
             VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
             if (dialog.ShowDialog() == true)
             {
+				// Adiciona o path da playlist na lista de paths de playlists
                 string playlistPath = dialog.SelectedPath;
                 playlistPaths.Add(playlistPath);
 
@@ -155,7 +162,7 @@ namespace IN0996_UNICAMP
 
 		private void AddMediaMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog();           // Cria uma instância do OpenFileDialog
+            Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog(); 
             // Define o filtro de arquivo para exibir apenas arquivos de mídia com as extensões .mp3, .mpg e .mpeg
 			FileDialog.Filter = "Media files (*.mp3;*.mp4;*.mpg;*.mpeg)|*.mp3;*.mp4;*.mpg;*.mpeg|All files (*.*)|*.*";      
 			if(FileDialog.ShowDialog() == true)
@@ -172,7 +179,7 @@ namespace IN0996_UNICAMP
             // Limpar a lista de playlists
             PlaylistListBox.Items.Clear();
 
-            // Adicionar as playlists à lista
+            // Adicionar as playlists e mídias avulsas à lista
             foreach (string playlistPath in playlistPaths)
             {
                 string playlistName = Path.GetFileName(playlistPath);
@@ -188,11 +195,11 @@ namespace IN0996_UNICAMP
 
 		private void PlaylistBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			reproductionQueue.Clear();
+			reproductionQueue.Clear();		// Quando é pressionada uma mídia com botão esquerdo, a fila de reprodução é zerada
 			// Verificar se uma playlist foi selecionada
 			if (e.ChangedButton == MouseButton.Left && (PlaylistListBox.SelectedItem is PlaylistItem playlistItem))
 			{
-				//Coloca todas as mídias da playlist no fim da fila de reprodução
+				// Coloca todas as mídias da playlist no fim da fila de reprodução
 				mediaFiles = Directory.GetFiles(playlistItem.Path, "*.mp4", SearchOption.AllDirectories);
 				foreach(string path in mediaFiles)
 				{
@@ -200,14 +207,14 @@ namespace IN0996_UNICAMP
 				}
 			}
 
-			// Verificar se uma mídia foi selecionada
+			// Verificar se uma mídia avulsa foi selecionada
 			if (e.ChangedButton == MouseButton.Left && (PlaylistListBox.SelectedItem is MediaItem mediaItem))
 			{
-				// Reproduzir a mídia
+				// Coloca a mídia na fila de reprodução
 				reproductionQueue.Add(mediaItem.Path);
 			}
 
-			// Reproduzir as mídias:
+			// Reproduz as mídias
 			Play();
 		}
 
@@ -225,6 +232,7 @@ namespace IN0996_UNICAMP
 				contextMenu.IsOpen = true;
 			}
 		}
+
 		private void AddToQueue(object sender, RoutedEventArgs e)
 		{
 			if (PlaylistListBox.SelectedItem is PlaylistItem playlistItem)
@@ -233,7 +241,7 @@ namespace IN0996_UNICAMP
 				mediaFiles = Directory.GetFiles(playlistItem.Path, "*.mp4", SearchOption.AllDirectories);
 				for(int i = mediaFiles.Length - 1; i >= 0; i--)			//Percorre de trás para frente para não inverter a ordem
 				{
-					reproductionQueue.Insert(1, mediaFiles[i]);			//Adiciona como a próxima mídia
+					reproductionQueue.Insert(1, mediaFiles[i]);			//Adiciona como a próxima mídia (posição 1)
 					queueItemsUser++;
 				}
 				
@@ -267,7 +275,8 @@ namespace IN0996_UNICAMP
 			if (PlaylistListBox.SelectedItem is PlaylistItem playlistItem)
 			{
 				// Confirmar a exclusão da playlist
-				MessageBoxResult result = System.Windows.MessageBox.Show("Tem certeza de que deseja excluir esta playlist?", "Excluir Playlist", MessageBoxButton.YesNo, MessageBoxImage.Question);
+				MessageBoxResult result = System.Windows.MessageBox.Show("Tem certeza de que deseja excluir " + 
+										"esta playlist?", "Excluir Playlist", MessageBoxButton.YesNo, MessageBoxImage.Question);
 				if (result == MessageBoxResult.Yes)
 				{
 					// Lógica para excluir a playlist
@@ -277,7 +286,8 @@ namespace IN0996_UNICAMP
 			}	else if(PlaylistListBox.SelectedItem is MediaItem mediaItem)
 			{
 				// Confirmar a exclusão da mídia
-				MessageBoxResult result = System.Windows.MessageBox.Show("Tem certeza de que deseja excluir esta mídia?", "Excluir Mídia", MessageBoxButton.YesNo, MessageBoxImage.Question);
+				MessageBoxResult result = System.Windows.MessageBox.Show("Tem certeza de que deseja excluir " + 
+										"esta mídia?", "Excluir Mídia", MessageBoxButton.YesNo, MessageBoxImage.Question);
 				if (result == MessageBoxResult.Yes)
 				{	
 						// Remover o item da lista
@@ -302,7 +312,8 @@ namespace IN0996_UNICAMP
 
 		private void Player_MediaEnded(object sender, RoutedEventArgs e)
 		{
-			//Tira o primeiro elemento (já reproduzido) da fila de reprodução. Se for um item adicionado pelo usuário, a contagem desses itens diminui
+			// Tira o primeiro elemento (já reproduzido) da fila de reprodução. Se for um item adicionado
+			// pelo usuário, a contagem desses itens diminui
 			reproductionQueue.RemoveAt(0);
 			if(queueItemsUser != 0)
 			{
@@ -319,10 +330,11 @@ namespace IN0996_UNICAMP
 				Player.Play();
 
 			}	else	{
-				Player.Source = null;
+				Player.Source = null;		//Quando a reprodução acaba, deixa o reprodutor sem imagem
 			}
 		}
 
+		// Classe que representa uma playlist
 		public class PlaylistItem
     	{
         	public string? Name { get; set; }
@@ -330,6 +342,7 @@ namespace IN0996_UNICAMP
             public string? ImagePath { get; internal set; }
         }
 
+		// Classe que representa uma mídia avulsa
 		public class MediaItem
     	{
         	public string? Name { get; set; }

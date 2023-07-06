@@ -4,13 +4,14 @@
         Title="Media Player" Height="600" Width="1200"
         ResizeMode="NoResize">
 
+    <!-- Comandos -->
     <Window.CommandBindings>
         <CommandBinding Command="Play" CanExecute="Play_CanExecute" Executed="Play_Executed" />
         <CommandBinding Command="Pause" CanExecute="Pause_CanExecute" Executed="Pause_Executed" />
     </Window.CommandBindings>
 
 
-    <!-- Grid de duas colunas -->
+    <!-- Grid de duas colunas: Coluna 0 é a principal, onde tem o player; Coluna 1: tem as playlists -->
     <Grid>
         <Grid.ColumnDefinitions>
         <ColumnDefinition Width="900"/>
@@ -19,16 +20,20 @@
 
         <!-- Primeira coluna -->
         <Grid MouseWheel="Grid_MouseWheel">
+
+            <!-- Definições de tamanho das três linhas -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
+            <!-- Coluna 0, linha 0: Player -->
             <Border Grid.Row="0" Background="Black">
                 <MediaElement Name="Player" Grid.Row="1" LoadedBehavior="Manual" Stretch="Fill" Margin="0, 0, 0, 0" Width="483" Height="300" />
             </Border>
 
+            <!-- Coluna 0, linha 1: Botões de controle -->
             <StackPanel Grid.Row="1" Background="White" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Click="Previous_Media">
                     <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\back_icon_64px.png" />
@@ -44,6 +49,7 @@
                 </Button>
             </StackPanel>
 
+            <!-- Coluna 0, linha 2: Barra de progresso e volume -->
             <StatusBar Grid.Row="2" Background="White">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -68,14 +74,14 @@
             </StatusBar>
         </Grid>
         
-        <!-- Segunda coluna - folders -->
+        <!-- Segunda coluna: folders -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Menu de playlists -->
+            <!-- Coluna 1, linha 0: Menu de mídias e playlists; Adicionar mais funcionalidades ou transformar em botão -->
             <Menu Grid.Row="0">
                 <MenuItem Header="_Mídia">
                     <MenuItem Header="_Adicionar Mídia" Click="AddMediaMenuItem_Click" />
@@ -85,11 +91,12 @@
                 </MenuItem>
             </Menu>
 
-            <!-- Lista de playlists -->
+            <!-- Coluna 1, linha 1: ListBox de mídias e playlists -->
             <ListBox Grid.Row="1" x:Name="PlaylistListBox" Background="White" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
 
+                         <!-- Border define o retângulo de cada mídia na lista -->
                         <Border Name="PlaylistBorder" Background="Black" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseLeftButtonUp="PlaylistBorder_MouseLeftButtonUp">
                             <Border.ContextMenu>
                                 <ContextMenu>
@@ -113,6 +120,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            
         </Grid>        
     </Grid>
 </Window>
