@@ -36,16 +36,16 @@
             <!-- Coluna 0, linha 1: Botões de controle -->
             <StackPanel Grid.Row="1" Background="White" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Click="Previous_Media">
-                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\back_icon_64px.png" />
+                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="pack://application:,,,/library/back_icon_64px.png" />
                 </Button>
                 <Button Command="Pause">
-                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\pause_icon_64px.png" />
+                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="pack://application:,,,/library\pause_icon_64px.png" />
                 </Button>
                 <Button Command="Play">
-                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\play_icon_64px.png" />
+                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="pack://application:,,,/library\play_icon_64px.png" />
                 </Button>
                 <Button Click="Next_Media">
-                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="C:\Users\henri\OneDrive\Documentos\Unicamp\Ciência da Computação\1º Semestre\Curso msft\Aulas\Desenvolvimento de Interface de Usuário\IN0996-UNICAMP\library\next_icon_64px.png" />
+                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Width="25" Source="pack://application:,,,/library\next_icon_64px.png" />
                 </Button>
             </StackPanel>
 
@@ -96,7 +96,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
 
-                         <!-- Border define o retângulo de cada mídia na lista -->
+                        <!-- Border define o retângulo de cada mídia na lista -->
                         <Border Name="PlaylistBorder" Background="Black" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseLeftButtonUp="PlaylistBorder_MouseLeftButtonUp">
                             <Border.ContextMenu>
                                 <ContextMenu>
@@ -111,8 +111,8 @@
                                     <ColumnDefinition Width="40" />
                                     <ColumnDefinition Width="260" />
                                 </Grid.ColumnDefinitions>
-                                <Border Background="Gray" Width="40"/>
-                                <Image Grid.Column="0" Source="{Binding ImagePath}" Width="40" Height="40" />
+                                <Border Background="Red" Width="40"/>
+                                <Image Grid.Column="0" Source="{Binding Test}" Width="40" Height="40" />
                                 <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                         </Border>
