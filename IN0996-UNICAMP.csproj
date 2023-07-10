@@ -10,6 +10,10 @@
 
   <ItemGroup>
     <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+    <Resource Include="library\back_icon_64px.png" />
+    <Resource Include="library\pause_icon_64px.png" />
+    <Resource Include="library\play_icon_64px.png" />
+    <Resource Include="library\next_icon_64px.png" />
   </ItemGroup>
 
 </Project>
