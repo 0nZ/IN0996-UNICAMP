@@ -8,6 +8,8 @@
 
 Este projeto foi desenvolvido pelos alunos Henrique Alves de Fernando e Willian Vaz como parte da disciplina de extensão INF0996 - Desenvolvimento de Interface de Usuário, ministrada na Universidade Estadual de Campinas (Unicamp).
 
+O relatório do trabalho e o vídeo com a apresentação do sistema e suas funcionalidades estão no diretório **/Documentos_De_Entrega** desse repositório.
+
 ## **Instruções:**
 
 * Certifique-se de que você possui o Visual Studio Code instalado em seu sistema, bem como o SDK do .NET Framework.
